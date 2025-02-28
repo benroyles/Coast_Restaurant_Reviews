@@ -55,7 +55,9 @@ managers = ['abhi', 'franklin', 'katya', 'mohit', 'murat', 'natasha', 'lindsay']
 
 host = ['anna', 'caren', 'lotty', 'megan', 'nicole', 'sharen']
 
-all_staff = servers + bar + managers + host
+events = ['emma jo', 'selina']
+
+all_staff = servers + bar + managers + host + events
 
 misspelling_map = {
     'abby': 'abhi',
@@ -76,10 +78,11 @@ misspelling_map = {
     'cali': 'caili',
     'chris': 'chris',
     'chrissy': 'chrissy',
+    'emma-jo': 'emma jo',
     'isobel': 'isabel',
     'isabelle': 'isabel',
     'jessica': 'jess',
-    'joshua': 'Josh',
+    'joshua': 'josh',
     'katja' : 'katya',
     'halil': 'khalil',
     'khalel': 'khalil',
@@ -318,7 +321,7 @@ df_exploded['Star Rating'] = df_exploded['Star Rating'].replace(star_rating_map)
 df_exploded['Date Of Review'] = pd.to_datetime(df_exploded['Date Of Review'], errors='coerce')
 
 # Save the resulting DataFrame to a CSV file
-df_exploded.to_csv('Review_dashboard_export_test.csv')
+df_exploded.to_csv('Review_dashboard_export.csv')
 
 
 logging.info("Preprocessing step completed.")
