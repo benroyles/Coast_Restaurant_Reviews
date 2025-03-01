@@ -85,23 +85,119 @@ fig_bar = px.bar(unique_reversed_count,
 # Display the chart
 st.plotly_chart(fig_bar)
 
-# Bar Chart: Most Mentioned Tags
-st.subheader("Top Mentioned Tags")
 
-# Instead of just exploding and counting, we need to count unique mentions of tags per review
-# We'll use 'drop_duplicates' to ensure a review only counts once per tag.
-tag_counts = df_filtered.drop_duplicates(subset=['Reversed Index', 'Tags'])  # Ensure each review counts once per tag
+# Define the custom order for 'Price per person'
+price_order = [
+    '$10–20', '$20–30', '$30–40', '$40–50', '$50–60', 
+    '$60–70', '$70–80', '$80–90', '$90–100', '$100+'
+]
+
+# Map the 'Price per person' column to the custom order
+df_filtered['Price per person'] = pd.Categorical(df_filtered['Price per person'], categories=price_order, ordered=True)
+
+# Remove duplicates based on 'Reversed Index' to ensure each review is only counted once
+df_filtered_unique = df_filtered.drop_duplicates(subset=['Reversed Index'])
+
+# Group by 'Price per person' to calculate the average star rating and count of unique reviews
+price_stats = df_filtered_unique.groupby('Price per person').agg(
+    Average_Star_Rating=('Star Rating', 'mean'),
+    Review_Count=('Reversed Index', 'count')  # Count the number of unique reviews
+).reset_index()
+
+# Create the scatter plot
+fig_price_rating = px.scatter(
+    price_stats, 
+    x='Price per person', 
+    y='Average_Star_Rating', 
+    size='Review_Count',  # Bubble size based on number of reviews
+    title="Average Star Rating vs. Price per Person (with Review Count)",
+    labels={'Price per person': 'Price per Person', 'Average_Star_Rating': 'Average Star Rating'},
+    hover_data={'Price per person': True, 'Average_Star_Rating': True, 'Review_Count': True},
+    size_max=50,  # Control the maximum bubble size
+    category_orders={"Price per person": price_order}  # Enforce the custom order for 'Price per person'
+)
+
+# Show the chart in Streamlit
+st.plotly_chart(fig_price_rating)
+
+# Subheader for the visualization
+st.subheader("Food Ratings by Menu Item")
+
+# Remove duplicate mentions per review
+df_filtered_tags = df_filtered.drop_duplicates(subset=['Reversed Index', 'Tags'])
+
+# Explode 'Tags' column
+df_filtered_tags = df_filtered_tags.explode('Tags')
+
+# Remove tags that are also in 'Menu Mentions'
+df_filtered_tags = df_filtered_tags[~df_filtered_tags['Tags'].isin(df_filtered.explode('Menu Mentions')['Menu Mentions'])]
+
+# Group by food item to calculate average rating and review count
+food_stats = df_filtered_tags.groupby('Tags').agg(
+    Average_Rating=('Food', 'mean'),
+    Review_Count=('Tags', 'count')  # Count how many times each tag appears
+).reset_index()
+
+# Rename columns
+food_stats = food_stats.rename(columns={'Tags': 'Food Item'})
+
+# Get top 10 food items by highest average rating
+top_food_stats = food_stats.nlargest(23, 'Average_Rating')
+
+# Create an interactive bubble chart
+fig_bubble = px.scatter(
+    top_food_stats,
+    x='Food Item',
+    y='Average_Rating',
+    size='Review_Count',
+    color='Average_Rating',
+    color_continuous_scale='RdYlGn',
+    hover_data={'Review_Count': True, 'Average_Rating': True},
+    title="Top 10 Rated Food Items by Average Rating",
+    size_max=40  # Increase this value to make all bubbles bigger
+)
+
+# Improve layout
+fig_bubble.update_layout(xaxis_title="Food Item", yaxis_title="Average Rating")
+
+# Show the chart in Streamlit
+st.plotly_chart(fig_bubble)
+
+
+# Subheader for the visualization
+st.subheader("Top Mentioned Tags (with Average Overall Rating)")
+
+# Ensure each review counts once per tag
+tag_counts = df_filtered.drop_duplicates(subset=['Reversed Index', 'Tags'])  # Remove duplicate mentions
 tag_counts = tag_counts.explode('Tags')['Tags'].value_counts().reset_index()
 tag_counts.columns = ['Tag', 'Mentions']  # Rename columns to 'Tag' and 'Mentions'
 
-# Get top 15 most mentioned tags and sort in descending order of mentions
+# Get the top 15 most mentioned tags
 tag_counts = tag_counts.head(15).sort_values(by='Mentions', ascending=True)
 
-# Create the horizontal bar chart
-fig_bar_tags = px.bar(tag_counts, x='Mentions', y='Tag', orientation='h', labels={'Tag': 'Tag', 'Mentions': 'Mentions'})
+# Calculate the average rating for each tag
+avg_ratings = df_filtered.drop_duplicates(subset=['Reversed Index', 'Tags']).explode('Tags')  # Remove duplicates and explode
+avg_ratings = avg_ratings.groupby('Tags')['Star Rating'].mean().reset_index()  # Calculate the average rating per tag
+avg_ratings.columns = ['Tag', 'Average Rating']  # Rename the columns
+
+# Merge the average ratings with tag counts
+tag_counts = tag_counts.merge(avg_ratings, on='Tag', how='left')
+
+# Create the horizontal bar chart with color based on average rating
+fig_bar_tags = px.bar(
+    tag_counts,
+    x='Mentions',
+    y='Tag',
+    orientation='h',
+    labels={'Tag': 'Tag', 'Mentions': 'Mentions'},
+    color='Average Rating',  # Use the average rating for coloring
+    color_continuous_scale='RdYlGn',  # Green for high ratings, red for low
+    title="Top Mentioned Tags with Average Rating"
+)
 
 # Display the chart
 st.plotly_chart(fig_bar_tags)
+
 
 from datetime import datetime
 

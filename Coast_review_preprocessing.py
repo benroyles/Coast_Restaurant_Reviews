@@ -84,6 +84,7 @@ misspelling_map = {
     'jessica': 'jess',
     'joshua': 'josh',
     'katja' : 'katya',
+    'katia' : 'katya',
     'halil': 'khalil',
     'khalel': 'khalil',
     'khalil': 'khalil',
@@ -223,7 +224,9 @@ merge_dict = {
     "mussels and clams": "mussels",
     "coast tower": "seafood tower",
     "fish and chip cones" : "Fish & Chip Cones",
-    "fish and chips" : "Fish & Chips"
+    "fish and chips" : "Fish & Chips",
+    "warm banana & coconut butter cake & creme brulee" : "Butter Cake & Creme Brulee",
+    "creme" : "Butter Cake & Creme Brulee"
 }
 
 # Clean and prepare the recommended dishes list
