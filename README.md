@@ -22,7 +22,7 @@ To collect customer reviews, an automated **web scraping pipeline** was built us
 
 1. **Automated Navigation**: Selenium simulates user interactions to load full review pages, including handling infinite scrolling and clicking "Load More" buttons when necessary.
 2. **HTML Parsing**: BeautifulSoup extracts structured data from each review, identifying key elements like review text, ratings, and review dates.
-3. **Data Storage**: Scraped reviews are saved as structured **CSV or JSON** files for further processing.
+3. **Data Storage**: Scraped reviews are saved as structured **CSV** files for further processing.
 4. **Scheduled Scraping**: A **script is scheduled to run at regular intervals**, ensuring the dataset stays updated with new reviews.
 
 ## Data Preprocessing & Cleaning
