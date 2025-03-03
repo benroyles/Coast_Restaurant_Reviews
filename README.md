@@ -1,52 +1,65 @@
 # Coast Reviews Dashboard
 
-This repository contains the code and resources for the Coast Reviews Dashboard, a data analysis project for processing and visualizing customer feedback from restaurant reviews. The dashboard is built using Python, Streamlit, and various data analysis libraries.
+This repository contains the code and resources for the **Coast Reviews Dashboard**, a data analysis project designed to process and visualize customer feedback from restaurant reviews. The dashboard is built using **Python, Streamlit**, and various data analysis libraries, providing an interactive way to explore and filter review data.
 
 ## Project Overview
 
-The Coast Reviews Dashboard is designed to help analyze customer reviews by extracting key insights such as:
+The **Coast Reviews Dashboard** is designed to extract key insights from restaurant customer reviews, including:
 
-- Review sentiments and ratings.
-- Frequently mentioned staff members, food items, and menu items.
-- Time-based trends, including review frequency over specific periods.
-- The ability to filter and display reviews based on various attributes such as staff members, meal types, etc.
+- **Review Sentiments and Ratings**: Understanding overall customer satisfaction.
+- **Frequently Mentioned Staff Members, Food Items, and Menu Items**: Identifying key themes in feedback.
+- **Time-Based Trends**: Analyzing review frequency and sentiment trends over time.
+- **Custom Filtering**: Allowing users to filter reviews based on attributes such as staff members, meal types, and time periods.
 
-### Web Scraping and Data Preprocessing
+## Web Scraping and Automated Data Extraction
 
-To provide the dataset for the dashboard, web scraping techniques are used to collect customer reviews from restaurant review platforms. The scraping process targets specific elements such as:
+To collect customer reviews, an automated **web scraping pipeline** was built using:
 
-- **Review Text**: Captures the content of customer feedback.
-- **Review Rating**: Extracts the star ratings associated with each review.
-- **Review Time**: Records when the review was written, enabling time-based analysis.
+- **Selenium**: For automating browser interactions, navigating through dynamic restaurant review pages, handling pagination, and loading content dynamically.
+- **BeautifulSoup**: For parsing the HTML structure and extracting relevant information such as review text, ratings, timestamps, and reviewer details.
 
-Once the reviews are scraped, the data is preprocessed using several steps to prepare it for analysis and visualization:
+### Web Scraping Workflow:
 
-- **Text Normalization**: The review text is cleaned by converting it to lowercase, removing possessive forms (e.g., “Ben's” → “Ben”), and eliminating unnecessary characters.
-- **Tagging Mentions**: Names of staff, food items, and menu mentions are tagged and identified within the reviews.
-- **Exploding Data**: The data is exploded so that each tag or name mentioned in a review gets its own row, allowing for more granular analysis.
+1. **Automated Navigation**: Selenium simulates user interactions to load full review pages, including handling infinite scrolling and clicking "Load More" buttons when necessary.
+2. **HTML Parsing**: BeautifulSoup extracts structured data from each review, identifying key elements like review text, ratings, and review dates.
+3. **Data Storage**: Scraped reviews are saved as structured **CSV** files for further processing.
+4. **Scheduled Scraping**: A **script is scheduled to run at regular intervals**, ensuring the dataset stays updated with new reviews.
 
-The preprocessing pipeline ensures that the dataset is consistent, structured, and ready for filtering and analysis within the dashboard.
+## Data Preprocessing & Cleaning
 
-The dashboard provides an interactive user interface to allow non-technical users to view and filter review data easily.
+Once the reviews are collected, a **data preprocessing pipeline** ensures the data is structured and ready for analysis. This includes:
 
-## Features
+- **Text Normalization**: Converting text to lowercase, removing unnecessary characters, and standardizing formatting.
+- **Tagging Mentions**: Extracting and tagging references to staff members, food items, and menu mentions using **regular expressions (Regex)** and **NLP techniques**.
+- **Data Explosion**: To facilitate granular analysis, each identified tag (staff name, food item, etc.) is assigned its own row in the dataset.
+- **Handling Duplicates**: Implementing a reversed index system to prevent multiple versions of the same review from appearing in the final dataset.
 
-- **Staff Mention Analysis**: Identifies and visualizes which staff members are mentioned in customer reviews.
-- **Review Filtering**: Allows filtering reviews based on various attributes such as meal type, staff names, and ratings.
-- **Data Visualization**: Displays key metrics about the reviews using interactive charts and tables.
-- **Time-based Analysis**: Visualizes reviews and mentions over specific time periods.
+## Dashboard Features
+
+The **Coast Reviews Dashboard** provides an intuitive interface for exploring the processed review data. Key features include:
+
+- **Staff Mention Analysis**: Identifies which staff members are frequently mentioned in customer reviews.
+- **Review Filtering**: Users can filter reviews based on multiple attributes, such as meal type, staff names, and star ratings.
+- **Interactive Data Visualization**: Displays key review metrics using dynamic charts and tables.
+- **Time-Based Analysis**: Visualizes trends in customer sentiment and review frequency over time.
 
 ## Technologies Used
 
-- **Python**: Core programming language for data processing and analysis.
-- **Streamlit**: Framework for building interactive dashboards and web applications.
-- **Pandas**: Library for data manipulation and analysis.
-- **Matplotlib**: For creating basic plots and visualizations.
-- **Scikit-learn**: For any machine learning models if used.
-- **Regex (re module)**: For text processing and cleaning, especially for extracting mentions of staff names.
+- **Python**: Primary language for data scraping, processing, and dashboard development.
+- **Streamlit**: Framework for building interactive dashboards.
+- **Pandas**: For data manipulation and analysis.
+- **Matplotlib & Seaborn**: For generating visual insights from the data.
+- **Selenium & BeautifulSoup**: For web scraping and data extraction.
+- **Scikit-learn**: For potential sentiment analysis or machine learning enhancements.
+- **Regex (re module)**: For extracting and tagging mentions of staff names, food items, and menu references.
 
 ## Acknowledgements
 
-- **Streamlit**: For making it easy to create interactive dashboards.
-- **Pandas**: For efficient data manipulation.
-- **Matplotlib**: For creating visualizations.
+- **Streamlit**: For providing an easy way to build interactive dashboards.
+- **Pandas & Matplotlib**: For data manipulation and visualization.
+- **Selenium & BeautifulSoup**: For automating and streamlining data collection.
+
+---
+
+This project provides a comprehensive look at customer feedback trends, helping restaurants gain valuable insights from their reviews. Contributions and feedback are welcome!
+
