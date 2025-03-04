@@ -28,6 +28,7 @@ tags = st.sidebar.multiselect("Select Tags", sorted(df['Tags'].dropna().unique()
 staff = st.sidebar.multiselect("Select Staff", sorted(df['Names Mentioned'].dropna().unique()))
 theme = st.sidebar.multiselect("Select Theme", sorted(df['Theme'].dropna().unique()))
 rating = st.sidebar.multiselect("Select Rating", sorted(df['Star Rating'].dropna().unique()))
+time_period = st.sidebar.multiselect("Select Time Period", sorted(df['Time Period'].dropna().unique()))
 
 
 # Apply filters based on sidebar inputs
@@ -44,6 +45,8 @@ if menu:
     df_filtered = df_filtered[df_filtered['Menu Mentions'].isin(menu)]
 if rating:
     df_filtered = df_filtered[df_filtered['Star Rating'].isin(rating)]
+if time_period:
+    df_filtered = df_filtered[df_filtered['Time Period'].isin(time_period)]
 
 # Dashboard Layout
 st.title("Coast Review Dashboard")
