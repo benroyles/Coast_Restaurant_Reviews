@@ -160,8 +160,8 @@ df['Names Mentioned'] = df['Normalized Reviews'].apply(extract_names)
 menu_items = [
     "Oysters", "Prawn Cocktail", "Seafood Tower", "Brioche", "Crab Cake", "Calamari", 
     "Mussels", "Carpaccio", "Pacific Octopus", "Salmon Flatbread", "Mushroom Flatbread", 
-    "Chowder", "Velouté", "bisque", "Burrata Salad", "Caesar Salad", "Cobb Salad", "Beets Salad", 
-    "Fish & Chip Cones","sushi", "California Roll", "King Salmon Roll", "Tuna Roll", "A5 Wagyu Roll", 
+    "Chowder", "Velouté", "Bisque", "Burrata Salad", "Caesar Salad", "Cobb Salad", "Beets Salad", 
+    "Fish & Chip Cones","Sushi", "California Roll", "King Salmon Roll", "Tuna Roll", "A5 Wagyu Roll", 
     "Sablefish Oshi", "Dynamite Roll", "Hamachi", "Masunosuke", "Amaebi", "A5 Wagyu", "Hotate", 
     "Shiro Maguro", "Tako", "Uni", "Hon Maguro", "Otoro", "Madai", "Nigiri Platter", "Sashimi Platter", 
     "King Salmon", "Sablefish", "Branzino", "Scallops", "Seafood Linguine", "Fish & Chips", 
