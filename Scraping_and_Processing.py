@@ -372,10 +372,10 @@ servers = ['andrea', 'andrew', 'ben', 'ben r', 'ben w',
            'betty', 'blaine', 'brad', 'brooke', 'caili',
            'carmen', 'chris', 'gloria', 'isabel',
            'isabella', 'jacob', 'jesse', 'jess', 'josh', 'khalil',
-           'laura', 'laura b', 'laura c', 'michael', 'peter',
+           'laura', 'michael', 'peter',
            'rhonda', 'sallie', 'sam', 'stephen', 'vinny']
 
-bar = ['chrissy', 'chung', 'oscar', 'pavlo', 'rafael', 'ryan', 'aimée']
+bar = ['chrissy', 'chung', 'oscar', 'pavlo', 'rafael', 'ryan', 'aimée', 'jayson']
 
 managers = ['abhi', 'franklin', 'katya', 'mohit', 'murat', 'natasha', 'lindsay']
 
@@ -470,16 +470,10 @@ def extract_names(mapped_text):
             mentioned_names.add(name)
 
     # Handle edge cases like "laura b" and "ben w" that should be treated specifically
-    if 'laura b' in mapped_text:
-        mentioned_names.add('laura b')
-    if 'laura c' in mapped_text:
-        mentioned_names.add('laura c')
     if 'ben w' in mapped_text:
         mentioned_names.add('ben w')
 
     # Ensure no duplicate generic names when specific ones are found (like "laura" should be removed if "laura b" is found)
-    if 'laura b' in mentioned_names or 'laura c' in mentioned_names:
-        mentioned_names.discard('laura')
     if 'ben w' in mentioned_names:
         mentioned_names.discard('ben')
 
