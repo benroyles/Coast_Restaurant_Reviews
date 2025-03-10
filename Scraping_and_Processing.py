@@ -30,7 +30,7 @@ formatted_today = today.strftime("%Y%m%d")  # Format as YYYYMMDD
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Variables for timing and scrolling
-SCROLL_COUNT = 3
+SCROLL_COUNT = 5
 SCROLL_PAUSE = 5
 PAGE_LOAD_WAIT = 5
 CLICK_WAIT = 5
